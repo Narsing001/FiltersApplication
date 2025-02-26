@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  
+    <input type="text" class="form-control mb-3" [formControl]="searchControl" placeholder="Search products..." />
+  
+    <select class="form-control mb-3" [formControl]="categoryControl">
+      <option value="">All Categories</option>
+      <option value="electronics">Electronics</option>
+      <option value="jewelery">Jewelry</option>
+      <option value="men's clothing">Men's Clothing</option>
+      <option value="women's clothing">Women's Clothing</option>
+    </select>
+  
+   
+    <div class="price-filters">
+        <div>
+            <label>Min Price: ${{ priceMinControl.value }}</label>
+            <input type="range" min="0" max="1000" step="10" [formControl]="priceMinControl" />
+        </div>
+      <div>
+          <label>Max Price: ${{ priceMaxControl.value }}</label>
+          <input type="range" min="0" max="1000" step="10" [formControl]="priceMaxControl" />
+      </div>
+    </div>
+  
+    <cdk-virtual-scroll-viewport itemSize="80" class="viewport" (scrolledIndexChange)="onScroll()">
+      <ul class="list-group mt-3">
+        <li *cdkVirtualFor="let product of products$ | async" class="list-group-item d-flex align-items-center">
+          <img [src]="product.image" alt="{{ product.title }}" width="50" class="me-3" />
+          <div>
+            <strong>{{ product.title }}</strong> - ${{ product.price }}
+          </div>
+        </li>
+      </ul>
+    </cdk-virtual-scroll-viewport>
+  </div>
+  
