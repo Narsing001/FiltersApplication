@@ -15,8 +15,8 @@ export class ProductListingComponent {
 
   searchControl = new FormControl('');
   categoryControl = new FormControl('');
-  priceMinControl = new FormControl(0);  // Minimum Price
-  priceMaxControl = new FormControl(1000); // Maximum Price
+  priceMinControl = new FormControl(0);  
+  priceMaxControl = new FormControl(1000); 
 
   products$!: Observable<any[]>;
 
@@ -25,11 +25,9 @@ export class ProductListingComponent {
   ngOnInit(): void {
     this.products$ = this.productService.getFilteredProducts();
 
-    // Subscribe to search and category changes
     this.searchControl.valueChanges.subscribe(value => this.productService.updateSearchTerm(value));
     this.categoryControl.valueChanges.subscribe(value => this.productService.updateCategory(value));
 
-    // Update the price range dynamically
     this.priceMinControl.valueChanges.subscribe(min => {
       const max = this.priceMaxControl.value || 1000;
       this.productService.updatePriceRange([min, max]);
@@ -41,11 +39,10 @@ export class ProductListingComponent {
     });
   }
 
-  // Infinite Scroll Logic
   onScroll() {
     if (this.viewport) {
       const end = this.viewport.measureScrollOffset('bottom');
-      if (end < 200) { // Load more products when reaching the bottom
+      if (end < 200) { 
         this.productService.loadMore();
       }
     }

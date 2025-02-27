@@ -20,12 +20,10 @@ export class ProductService {
     this.loadMore();
   }
 
-  // Fetch products from API
   private fetchProducts(): Observable<any[]> {
     return this.http.get<any[]>(this.API_URL);
   }
 
-  // Load more products
   loadMore() {
     this.fetchProducts().pipe(
       map(products => products.slice(0, (this.loadedPages + 1) * this.pageSize))
@@ -35,7 +33,6 @@ export class ProductService {
     });
   }
 
-  // Get filtered + paginated products
   getFilteredProducts(): Observable<any[]> {
     return combineLatest([
       this.productsSubject.asObservable(),
@@ -49,19 +46,18 @@ export class ProductService {
         return products.filter(product => 
           (!search || product.title.toLowerCase().includes(search.toLowerCase())) &&
           (!category || product.category === category) &&
-          (product.price >= minPrice && product.price <= maxPrice) // Fix price range filtering
+          (product.price >= minPrice && product.price <= maxPrice) 
         );
       })
     );
   }
 
-  // Update filters
   updateSearchTerm(term: any) { this.searchSubject.next(term); }
   updateCategory(category: any) { this.categorySubject.next(category); }
   updatePriceRange(range: any[]) { 
     this.priceRangeSubject.next(range); 
   }
 
-  
+
   
 }
